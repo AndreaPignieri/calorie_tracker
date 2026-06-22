@@ -1,0 +1,138 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "3:6520481191571220998",
+      "lastPropertyId": "4:8813906759674206801",
+      "name": "FoodEntryEntity",
+      "properties": [
+        {
+          "id": "1:992164481216448084",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:5246236759718317235",
+          "name": "foodItemId",
+          "indexId": "3:1980821698951784091",
+          "type": 11,
+          "flags": 520,
+          "relationTarget": "FoodItemEntity"
+        },
+        {
+          "id": "3:16328515590806273",
+          "name": "dateTime",
+          "type": 10
+        },
+        {
+          "id": "4:8813906759674206801",
+          "name": "quantity",
+          "type": 8
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "4:512092194566140640",
+      "lastPropertyId": "12:1904513673239261049",
+      "name": "FoodItemEntity",
+      "properties": [
+        {
+          "id": "1:223987612548900379",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:6759781069428740544",
+          "name": "barcode",
+          "indexId": "4:2099678179155011358",
+          "type": 9,
+          "flags": 2048
+        },
+        {
+          "id": "3:1153490806350976988",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "4:8688581141932851748",
+          "name": "brand",
+          "type": 9
+        },
+        {
+          "id": "5:2307027584078546345",
+          "name": "caloriesPer100g",
+          "type": 8
+        },
+        {
+          "id": "6:469334674520105607",
+          "name": "carbsPer100g",
+          "type": 8
+        },
+        {
+          "id": "7:6096255856162016400",
+          "name": "proteinPer100g",
+          "type": 8
+        },
+        {
+          "id": "8:3392300653778563978",
+          "name": "fatsPer100g",
+          "type": 8
+        },
+        {
+          "id": "9:7187199050961751529",
+          "name": "fiberPer100g",
+          "type": 8
+        },
+        {
+          "id": "10:1124410462323489806",
+          "name": "servingSizeWeight",
+          "type": 8
+        },
+        {
+          "id": "11:5862898075594288085",
+          "name": "servingSizeName",
+          "type": 9
+        },
+        {
+          "id": "12:1904513673239261049",
+          "name": "allergies",
+          "type": 30
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "4:512092194566140640",
+  "lastIndexId": "4:2099678179155011358",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [
+    831402211557804926,
+    4590642211799563445
+  ],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [
+    1892218377980231136,
+    9048116492312893075,
+    9066962400477943637,
+    8108737585855767412,
+    976503164000436458,
+    1329695433554647114,
+    4262759751927146726,
+    5909925021469807195,
+    6635341138356018258,
+    8444862756584125319,
+    4604354847991903998,
+    5065836201845449059,
+    2864818224448073714
+  ],
+  "retiredRelationUids": [],
+  "version": 1
+}
