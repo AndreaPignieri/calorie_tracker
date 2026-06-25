@@ -8,8 +8,8 @@ import 'package:calorie_tracker/objectbox.g.dart';
 
 
 class ObjectboxFoodEntryRepository implements IFoodEntryRepository {
+  
   final Box<FoodEntryEntity> foodEntryBox;
-
   ObjectboxFoodEntryRepository({required this.foodEntryBox});
   
   @override

@@ -4,26 +4,25 @@ final class FoodItemFilter {
   final String? name;
   final String? brand;
 
-  final int? maxCaloriesPer100g;
-  final int? maxCarbsPer100g;
-  final int? maxProteinPer100g;
-  final int? maxFatsPer100g;
-  final int? maxFiberPer100g;
+  final double? maxCaloriesPer100g;
+  final double? maxCarbsPer100g;
+  final double? maxProteinPer100g;
+  final double? maxFatsPer100g;
+  final double? maxFiberPer100g;
 
-  final int? minCaloriesPer100g;
-  final int? minCarbsPer100g;
-  final int? minProteinPer100g;
-  final int? minFatsPer100g;
-  final int? minFiberPer100g;
+  final double? minCaloriesPer100g;
+  final double? minCarbsPer100g;
+  final double? minProteinPer100g;
+  final double? minFatsPer100g;
+  final double? minFiberPer100g;
 
 
-  final double? servingSizeWeight;
+  final double? maxServingSizeWeight;
+  final double? minServingSizeWeight;
+
   final String? servingSizeName;
 
   final List<String>? excludeAllergies;
-
-  final int limit;
-  final int offset;
 
   FoodItemFilter({
     this.barcode,
@@ -44,11 +43,9 @@ final class FoodItemFilter {
     this.minFiberPer100g,
 
     this.servingSizeName,
-    this.servingSizeWeight,
+    this.maxServingSizeWeight,
+    this.minServingSizeWeight,
 
     this.excludeAllergies,
-
-    required this.limit,
-    required this.offset
   });
 }
