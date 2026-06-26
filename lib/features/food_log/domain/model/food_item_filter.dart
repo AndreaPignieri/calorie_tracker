@@ -54,4 +54,25 @@ final class FoodItemFilter {
     required this.limit,
     required this.offset
   });
+
+  bool isEmpty() {
+    if (barcode != null && barcode!.isNotEmpty) return false;
+    if (name != null && name!.isNotEmpty) return false;
+    if (brand != null && brand!.isNotEmpty) return false;
+    if (servingSizeName != null && servingSizeName!.isNotEmpty) return false;
+    if (maxCaloriesPer100g != null) return false;
+    if (maxCarbsPer100g != null) return false;
+    if (maxProteinPer100g != null) return false;
+    if (maxFatsPer100g != null) return false;
+    if (maxFiberPer100g != null) return false;
+    if (maxServingSizeWeight != null) return false;
+    if (minCaloriesPer100g != null) return false;
+    if (minCarbsPer100g != null) return false;
+    if (minProteinPer100g != null) return false;
+    if (minFatsPer100g != null) return false;
+    if (minFiberPer100g != null) return false;
+    if (minServingSizeWeight != null) return false;
+    if (excludeAllergies != null && excludeAllergies!.isNotEmpty) return false;
+    return true;
+  }
 }
