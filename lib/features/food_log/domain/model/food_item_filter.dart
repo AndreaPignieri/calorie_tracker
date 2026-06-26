@@ -24,6 +24,9 @@ final class FoodItemFilter {
 
   final List<String>? excludeAllergies;
 
+  final int limit;
+  final int offset;
+
   FoodItemFilter({
     this.barcode,
 
@@ -47,5 +50,8 @@ final class FoodItemFilter {
     this.minServingSizeWeight,
 
     this.excludeAllergies,
+
+    required this.limit,
+    required this.offset
   });
 }

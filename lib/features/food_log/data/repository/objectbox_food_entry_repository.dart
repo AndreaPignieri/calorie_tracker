@@ -13,16 +13,15 @@ class ObjectboxFoodEntryRepository implements IFoodEntryRepository {
   ObjectboxFoodEntryRepository({required this.foodEntryBox});
   
   @override
-  Future<Result<FoodEntry, Exception>> create(FoodEntry foodEntry) async {
+  Future<Result<FoodEntry, Exception>> upsert(FoodEntry foodEntry) async {
     try {
-      final entity = foodEntry.toEntity();
-      final newId = foodEntryBox.put(entity);
-      final savedEntity = foodEntryBox.get(newId);
+      final toSave = foodEntry.toEntity();
+      final newId = foodEntryBox.put(toSave);
+      final savedEntry = foodEntryBox.get(newId);
       
-      if (savedEntity == null) throw Exception('Read error after creation');
-      
-      final savedDomainModel = savedEntity.toDomain();
-      return Result.success(savedDomainModel);
+      if (savedEntry == null) throw Exception('Read error after creation');
+
+      return Result.success(savedEntry.toDomain());
     
     } catch (e) {
       return Result.failure(Exception('DB error: $e'));
@@ -30,7 +29,7 @@ class ObjectboxFoodEntryRepository implements IFoodEntryRepository {
   }
 
   @override
-  Future<Result<FoodEntry, Exception>> getById(int id) async {
+  Future<Result<FoodEntry, Exception>> get(int id) async {
     try {
       final data = foodEntryBox.get(id);
       
@@ -57,21 +56,7 @@ class ObjectboxFoodEntryRepository implements IFoodEntryRepository {
       return Result.failure(Exception('DB error: $e'));
     }
   }
-  @override
-  Future<Result<FoodEntry, Exception>> update(FoodEntry foodEntry) async {
-    try{
-      final entity = foodEntry.toEntity();
-      final newId = foodEntryBox.put(entity);
-      final updatedEntity = foodEntryBox.get(newId);
-
-      if (updatedEntity==null) throw Exception("Read error after update");
-
-      return Result.success(updatedEntity.toDomain());
-
-    } catch (e) {
-      return Result.failure(Exception('DB error: $e'));
-    }
-  }
+  
   @override
   Future<Result<void, Exception>> delete(int id) async {
     try{

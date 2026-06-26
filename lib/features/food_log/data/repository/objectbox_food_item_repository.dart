@@ -8,19 +8,32 @@ import 'package:calorie_tracker/core/utils/result.dart';
 import 'package:calorie_tracker/objectbox.g.dart';
 
 class ObjectboxFoodItemRepository implements IFoodItemRepository {
-
   final Box<FoodItemEntity> foodItemBox;
+  
   ObjectboxFoodItemRepository({required this.foodItemBox});
 
   @override
-  Future<Result<FoodItem, Exception>> getById(int id) async {
+  Future<Result<FoodItem, Exception>> upsert(FoodItem foodItem) async{
+    try {
+      final toSave = foodItem.toEntity();
+      final newId = foodItemBox.put(toSave);
+      final savedItem = foodItemBox.get(newId);
+      
+      if (savedItem == null) throw Exception('Read error after creation');
+      
+      return Result.success(savedItem.toDomain());
+
+    } catch (e) {
+      return Result.failure(Exception('DB error: $e'));
+    }
+  }
+
+  @override
+  Future<Result<FoodItem, Exception>> get(int id) async {
     try {
       final data = foodItemBox.get(id);
-
-      if (data==null) throw Exception("Unable to find entity with corresponding id");
-
+      if (data == null) throw Exception("Unable to find entity with corresponding id");
       return Result.success(data.toDomain());
-
     } catch (e) {
       return Result.failure(Exception('DB error: $e'));
     }
@@ -29,23 +42,44 @@ class ObjectboxFoodItemRepository implements IFoodItemRepository {
   @override
   Future<Result<List<FoodItem>, Exception>> filteredSearch(FoodItemFilter filter) async {
     try {
-      final queryBuilder = foodItemBox.query(filter.toObjectBoxCondition());
+      Condition<FoodItemEntity>? mainCondition = filter.toObjectBoxCondition();
+
+      if (filter.excludeAllergies != null && filter.excludeAllergies!.isNotEmpty) {
+        
+        Condition<FoodItemEntity>? allergyCondition;
+        
+        for (final allergy in filter.excludeAllergies!) {
+          final c = FoodItemEntity_.allergies.containsElement(allergy);
+          allergyCondition = allergyCondition == null ? c : allergyCondition.or(c);
+        }
+
+        if (allergyCondition != null) {
+          final unsafeQuery = foodItemBox.query(allergyCondition).build();
+          final unsafeIds = unsafeQuery.findIds();
+          unsafeQuery.close();
+
+          if (unsafeIds.isNotEmpty) {
+            final excludeCondition = FoodItemEntity_.id.notOneOf(unsafeIds);
+            mainCondition = mainCondition == null 
+                ? excludeCondition 
+                : mainCondition.and(excludeCondition);
+          }
+        }
+      }
+      
+      final queryBuilder = mainCondition == null 
+          ? foodItemBox.query() 
+          : foodItemBox.query(mainCondition);
       
       final query = queryBuilder.build();
 
-      Iterable<FoodItemEntity> entities = query.find();
-      query.close();
+      query.offset = filter.offset;
+      query.limit = filter.limit;
 
-      if (filter.excludeAllergies != null && filter.excludeAllergies!.isNotEmpty) {
-        entities = entities.where((item) {
-          final hasExcludedAllergy = filter.excludeAllergies!.any(
-            (allergy) => item.allergies?.contains(allergy) ?? false,
-          );
-          return !hasExcludedAllergy;
-        });
-      }
+      final List<FoodItemEntity> entities = query.find();
+      query.close();
       
-      final List<FoodItem> domainItems = entities.map((entity) => entity.toDomain()).toList();
+      final List<FoodItem> domainItems = entities.map((e) => e.toDomain()).toList();
 
       return Result.success(domainItems);
     } catch (e) {

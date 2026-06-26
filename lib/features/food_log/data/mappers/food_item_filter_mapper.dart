@@ -50,18 +50,11 @@ extension FoodItemFilterMapper on FoodItemFilter {
       conditions.add(FoodItemEntity_.servingSizeWeight.greaterOrEqual(minServingSizeWeight!));
     }
     if (maxServingSizeWeight != null) {
-      conditions.add(FoodItemEntity_.servingSizeWeight.greaterOrEqual(maxServingSizeWeight!));
+      conditions.add(FoodItemEntity_.servingSizeWeight.lessOrEqual(maxServingSizeWeight!));
     }
     if (servingSizeName != null && servingSizeName!.isNotEmpty) {
       conditions.add(FoodItemEntity_.servingSizeName.equals(servingSizeName!, caseSensitive: false));
     }
-
-    if (excludeAllergies != null && excludeAllergies!.isNotEmpty) {
-      for (final allergy in excludeAllergies!) {
-        conditions.add(FoodItemEntity_.allergies.containsElement(allergy).not());
-      }
-    }
-
     if (conditions.isEmpty) return null;
     return conditions.reduce((a, b) => a & b);
   }
