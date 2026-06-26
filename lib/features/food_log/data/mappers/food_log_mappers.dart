@@ -11,11 +11,9 @@ extension FoodEntryEntityMapper on FoodEntryEntity {
     if (targetItem == null) {
       throw Exception('Database Error: FoodItem mancante per la FoodEntry con id $id');
     }
-    
-    final safeUtcDate = dateTime.isUtc ? dateTime : dateTime.toUtc();
 
     return FoodEntry(
-    logDate : LogDate.fromDateTime(safeUtcDate),
+    logDate : LogDate.fromDateTime(dateTime),
     id : id,
     quantity : quantity,
     mealType: mealType,
@@ -29,7 +27,7 @@ extension FoodEntryMapper on FoodEntry {
     return FoodEntryEntity()
     ..id = id
     ..foodItem.targetId = foodItem.id
-    ..dateTime = DateTime.utc(logDate.year, logDate.month, logDate.day)
+    ..dateTime = logDate.toDateTime()
     ..quantity = quantity
     ..mealType = mealType;
   }

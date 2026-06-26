@@ -11,11 +11,16 @@ final class LogDate {
   });
 
   factory LogDate.fromDateTime(DateTime dateTime){
-    return LogDate(day: dateTime.day, month: dateTime.month, year: dateTime.year);
+    final safeUtcDate = dateTime.isUtc ? dateTime : dateTime.toUtc();
+    return LogDate(day: safeUtcDate.day, month: safeUtcDate.month, year: safeUtcDate.year);
   }
 
   factory LogDate.now(){
     return LogDate.fromDateTime(DateTime.now());
+  }
+
+  DateTime toDateTime() {
+    return DateTime.utc(year, month, day);
   }
 
   @override
