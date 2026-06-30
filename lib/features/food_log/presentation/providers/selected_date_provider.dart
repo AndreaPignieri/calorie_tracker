@@ -4,20 +4,22 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class SelectedDateNotifier extends Notifier<LogDate> {
   
   @override
-  LogDate build() {return LogDate.now();}
+  LogDate build() {
+    return LogDate.now();
+  }
 
   void goToPreviousDay() {
-    state=LogDate(day:state.day-1, month:state.month, year:state.year);
+    state = state.previousDay;
   }
 
   void goToNextDay() {
-    if(state==LogDate.now()) return;
-    state=LogDate(day: state.day+1, month: state.month, year: state.year);
+    if (state == LogDate.now()) return;
+    state = state.nextDay;
   }
   
   void setDate(LogDate newDate) {
-    if(newDate.toDateTime().isAfter(LogDate.now().toDateTime())) return;
-    state=newDate;
+    if (newDate.isAfter(LogDate.now())) return;
+    state = newDate;
   }
 }
 
