@@ -18,6 +18,10 @@ class FoodEntry {
     required this.mealType
   });
 
+  factory FoodEntry.create(LogDate logDate, FoodItem foodItem, double quantity, MealType mealType) {
+    return FoodEntry(id:0, logDate: logDate, foodItem: foodItem, quantity: quantity, mealType: mealType);
+  }
+
   int get calories => ((foodItem.caloriesPer100g * quantity) / 100).round();
   int get proteins => ((foodItem.proteinPer100g * quantity) / 100).round();
   int get carbs => ((foodItem.carbsPer100g * quantity) / 100).round();
