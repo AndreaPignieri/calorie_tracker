@@ -1,3 +1,4 @@
+import 'package:calorie_tracker/features/food_log/domain/model/daily_log.dart';
 import 'package:calorie_tracker/features/food_log/domain/repository/i_food_entry_repository.dart';
 import 'package:calorie_tracker/features/food_log/data/mappers/food_log_mappers.dart';
 import 'package:calorie_tracker/features/food_log/data/local/food_entry_entity.dart';
@@ -42,15 +43,15 @@ class ObjectboxFoodEntryRepository implements IFoodEntryRepository {
   }
 
   @override
-  Future<Result<List<FoodEntry>, Exception>> getByDate(LogDate logDate) async {
+  Future<Result<DailyLog, Exception>> getDailyLog(LogDate logDate) async {
     try{
       final query = foodEntryBox.query(FoodEntryEntity_.dateTime.equalsDate(DateTime.utc(logDate.year, logDate.month, logDate.day))).build();
       final List<FoodEntryEntity> foodEntryEntityList = query.find();
       query.close();
 
       List<FoodEntry> data = foodEntryEntityList.map((entity) => entity.toDomain()).toList();
-
-      return Result.success(data);
+      
+      return Result.success(DailyLog(date: logDate, entries: data));
 
     } catch (e) {
       return Result.failure(Exception('DB error: $e'));

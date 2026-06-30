@@ -17,4 +17,10 @@ class FoodEntry {
     required this.quantity,
     required this.mealType
   });
+
+  int get calories => ((foodItem.caloriesPer100g * quantity) / 100).round();
+  int get proteins => ((foodItem.proteinPer100g * quantity) / 100).round();
+  int get carbs => ((foodItem.carbsPer100g * quantity) / 100).round();
+  int get fats => ((foodItem.fatsPer100g * quantity) / 100).round();
+  int get fibers => ((foodItem.fiberPer100g * quantity) / 100).round();
 }
