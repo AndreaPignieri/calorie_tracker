@@ -23,6 +23,24 @@ final class LogDate {
     return DateTime.utc(year, month, day);
   }
 
+  bool isAfter(LogDate logDate) {
+    return toDateTime().isAfter(logDate.toDateTime());
+  }
+
+  bool isBefore(LogDate logDate) {
+    return toDateTime().isBefore(logDate.toDateTime());
+  }
+
+  LogDate get previousDay {
+  final prev = toDateTime().subtract(const Duration(days: 1));
+  return LogDate.fromDateTime(prev);
+}
+
+LogDate get nextDay {
+  final next = toDateTime().add(const Duration(days: 1));
+  return LogDate.fromDateTime(next);
+}
+
   @override
   bool operator ==(Object other) => identical(this, other)  
     || other is LogDate
