@@ -1,4 +1,4 @@
-
+import 'package:calorie_tracker/core/utils/meal_type.dart';
 import 'package:calorie_tracker/features/food_log/domain/model/food_entry.dart';
 import 'package:calorie_tracker/features/food_log/domain/model/log_date.dart';
 
@@ -17,4 +17,28 @@ class DailyLog {
   int get totalFats => entries.fold(0, (sum, entry) => sum + entry.fats);
   int get totalFibers => entries.fold(0, (sum, entry) => sum + entry.fibers);
   
+  List<FoodEntry> getEntriesByMeal(MealType mealType) {
+    return entries.where((entry) => entry.mealType == mealType).toList();
+  }
+
+  int getCaloriesByMeal(MealType mealType) {
+    return getEntriesByMeal(mealType).fold(0, (sum, entry) => sum + entry.calories);
+  }
+
+  int getProteinsByMeal(MealType mealType) {
+    return getEntriesByMeal(mealType).fold(0, (sum, entry) => sum + entry.proteins);
+  }
+
+  int getCarbsByMeal(MealType mealType) {
+    return getEntriesByMeal(mealType).fold(0, (sum, entry) => sum + entry.carbs);
+  }
+
+  int getFatsByMeal(MealType mealType) {
+    return getEntriesByMeal(mealType).fold(0, (sum, entry) => sum + entry.fats);
+  }
+
+  int getFibersByMeal(MealType mealType) {
+    return getEntriesByMeal(mealType).fold(0, (sum, entry) => sum + entry.fibers);
+  }
+
 }
